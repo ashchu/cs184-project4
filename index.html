@@ -34,7 +34,7 @@
   <h2>Project 4 Overview</h2>
   <h2>Overview</h2>
   <p>Especially in 3D animated feature films and video games, simulating is essentially to ensure the viewer's experience feels immersive and real, even the small details. One way to dive deeper into how the real-world is simulated is by simulating cloth! In this project, we go through the steps of the process of representing and manipulating points to create realistic cloth. The environment around the cloth includes gravity, a floor, and objects to fall on top of. We ensure to account for instances of the cloth even falling upon itself.</p>
-  <p>The basics of this process begins by building a grid to represnt the cloth through PointMasses, datapoints that represent points within and along the cloth as well as constrain together to remain intact during different simulation tests. </p>
+  <p>The basics of this process begins by building a grid to represnt the cloth through PointMasses, datapoints that represent points within and along the cloth as well as constrain together to remain intact during different simulation tests. Then, we begin implementing basic simulations with verlet integration and calculating the impact of forces on the point masses. Additionally, we implemented deformation constraints in mass-spring models. From there, we needed to handle collisions between objects. We implemented this for spheres and planes. To do this, we adjust point mass positions if it exists "inside" the plane. From there, we implemented self-collisions in which we handle when an object falls on itself. Lastly, to bring cloth simulation together, we add shading to texture the objects. The textures we implement are diffuse shading, blinn-phong shading, texture mapping, displacement and bump mapping, and environment-mapped reflections. </p>
   <hr>
   <h2>Part 1: Masses & Springs</h2>
   <div align="center" style="margin:0; padding:0; display: flex;">
@@ -50,17 +50,17 @@
   <table>
     <tr>
       <td>
-        <img src="imgs/none.png" width="400px" alt="bunny_uni">
-        <p style="text-align: center">Without any constrains</p>
+        <img src="imgs/two.png" width="400px" alt="bunny_uni">
+        <p style="text-align: center">Without any shearing constrains</p>
       </td>
       <td>
-        <img src="imgs/contstraint.png" width="400px" alt="bunny_uni">
-        <p style="text-align: center">Grid with shearing constraints</p>
+        <img src="imgs/shear.png" width="400px" alt="bunny_uni">
+        <p style="text-align: center">Grid with shearing constraints only</p>
       </td>
     </tr>
     <tr>
       <td>
-        <img src="imgs/allcloth.png" width="400px" alt="bunny_uni">
+        <img src="imgs/all.png" width="400px" alt="bunny_uni">
         <p style="text-align: center">Grid with shearing and bending constraints</p>
       </td>
       <td>
@@ -210,15 +210,16 @@
       </tr>
     </table>
     </ul>
-    
+    <p><b>Bugs:</b> The main bug we had faced was using the wrong pointers in this section. In <code>build_spatial_map()</code> we forgot to address the point mass correctly, causing incorrect calculations and checks for collisions.</p>
+
     <h2>Part 5 - Shaders</h2>
     <h3>Shading</h3>
     <p>In this part, we implemented shaders with GLSL, which are programs that run computations on the GPU parallel with other parts of the rasterization pipeline like raytracing. We work with vertex shaders and fragment shaders. Vertex shaders are in charge of making geometric modifications of vertices (such as their position, normal vectors, etc), while fragment shaders take in the output of the vertex shader and process the resulting geometric properties of fragments to figure out an output color.</p>
-    
+
     <h3>Diffuse Shading</h3>
     <p>This part we just needed to implement diffuse lighting which we can compute output values for using the below formula, where I is the light intensity, r is the distance between the point and the position of the light, n is the normal vector, and l is the light direction (found with normalizing the light position - v position). The rest follows. </p>
     <img src="images/diffuse formula.jpg" width="400px">
-    
+
     <h3>Blinn Phong Shading </h3>
     <p>Blinn Phong allows us to create specular highlights and shading with ambient light and specfular reflection. It follows the formula below where the first term is ambient lighting, the second is diffuse lighting and the last is specular lighting</p>
     <img src="images/phong_eq.png" width="400px">
